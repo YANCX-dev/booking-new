@@ -65,7 +65,7 @@ class BookingController extends Controller
         $booking = Booking::with('user', 'room')->find($id);
 
         if (!$booking) {
-            return response()->json(null, 404);
+            return response()->json(['message' => 'Booking not found'], 404);
         }
 
         return response()->json($booking);
