@@ -3,6 +3,10 @@
 Этот README содержит инструкции для тестирования API бронирования номеров в отеле с помощью Postman. API позволяет создавать, просматривать, обновлять и удалять брони. Работает на фреймворке Laravel 11.
 
 ## Содержание
+- [Авторизация](#api-эндпоинты)
+- [1. /register](#1-post-register)
+- [1. /login](#2-post-login)
+- [1. /login](#2-post-login)
 - [API Эндпоинты](#api-эндпоинты)
     - [1. Создать бронь](#1-создать-бронь)
     - [2. Получить бронь по ID](#2-получить-бронь-по-id)
@@ -10,11 +14,113 @@
     - [4. Удалить бронь](#4-удалить-бронь)
     - [5. Получить все брони](#5-получить-все-брони)
     - [6. Получить брони по пользователю](#6-получить-брони-по-пользователю)
-- [Тестирование с помощью Postman](#тестирование-с-помощью-postman)
 
-Это аутентифицирует ваши запросы.
+# **Методы авторизации**
 
-## API Эндпоинты
+
+### **2. POST /register**
+Регистрация пользователя
+
+#### **Запрос**
+- **URL:** `/api/auth/register`
+- **Метод:** POST
+- **Тело запроса (JSON):**
+
+```json
+{
+    "name": "Yaroslav",
+    "email": "admintop@gmail.com",
+    "password": "A919239A!",
+    "password_confirmation": "A919239A!"
+}
+  ```
+#### Пример ответа (Успешный запрос [200])
+```json
+{
+    "name": "Yaroslav",
+    "email": "admintop@gmail.com",
+    "updated_at": "2024-12-01T20:18:06.000000Z",
+    "created_at": "2024-12-01T20:18:06.000000Z",
+    "id": 11
+}
+```
+
+### **3. POST /login**
+Авторизация пользователя.
+
+#### **Запрос**
+- **URL:** `/api/auth/login`
+- **Метод:** POST
+- **Тело запроса (JSON):**
+
+```json
+{
+    "email": "user@example.com",
+    "password": "password123"
+}
+  ```
+  #### Пример ответа (Успешный запрос [200])
+```json
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUyMDAwL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNzMzMDg0NDMwLCJleHAiOjE3MzMwODgwMzAsIm5iZiI6MTczMzA4NDQzMCwianRpIjoiMlFYSkYxUnVIanZKdWo1SyIsInN1YiI6IjExIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.EVcOxzaGFVKmXFy70sCNrFqx7d0HV6j74CXwZn7Tctk",
+    "token_type": "bearer",
+    "expires_in": 3600
+}
+```
+
+### **4. POST /me**
+Получение информации о себе.
+#### **Запрос**
+- **URL:** `/api/auth/me`
+- **Метод:** POST
+- **Заголовки:**
+```
+Authorization: Bearer <ваш_токен>
+```
+#### Пример ответа (Успешный запрос [200])
+```json
+{
+    "id": 11,
+    "name": "Yaroslav",
+    "email": "admintop@gmail.com",
+    "email_verified_at": null,
+    "created_at": "2024-12-01T20:18:06.000000Z",
+    "updated_at": "2024-12-01T20:18:06.000000Z"
+}
+```
+### **5. POST /refresh**
+Обновление токена.
+#### **Запрос**
+- **URL:** `/api/auth/refresh`
+- **Метод:** POST
+- **Заголовки:**
+```
+Authorization: Bearer <ваш_токен>
+```
+#### Пример ответа (Успешный запрос [200])
+```json
+{
+    "access_token": "new_jwt_token_here",
+    "token_type": "Bearer",
+    "expires_in": 3600
+}
+```
+### **6. POST /logout**
+Обновление токена.
+#### **Запрос**
+- **URL:** `/api/auth/logout`
+- **Метод:** POST
+- **Заголовки:**
+```
+<Ваш_Bearer_Token>
+```
+#### Пример ответа (Успешный запрос [200])
+```json
+{
+    "message": "Successfully logged out"
+}
+```
+
 
 ### 1. Создать бронь
 - **Метод**: `POST`
@@ -191,7 +297,7 @@ GET http://localhost:8000/api/bookings
         }
     }
 ```
-### 6. Получить все брони по пользователю
+### 6. Получить брони по пользователю
 - **Метод**: `GET`
 - **URL**: `/api/bookings/user/{user_id}`
 - **Параметры**: 
