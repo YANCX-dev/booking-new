@@ -3,9 +3,9 @@
 
     @section('content')
         <main class="flex-grow-1 min-vh-100">
-        <div class="container">
+            <div class="container">
 
-        </div>
+            </div>
         </main>
     @endsection
 
