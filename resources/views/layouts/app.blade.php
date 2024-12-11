@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <script defer src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 </head>
-<body>
+<body class="min-vh-100">
 @include('inc.navbar')
 
 @yield('content')
